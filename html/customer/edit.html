@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block header_navbar %}
+<div id="nav-container" class="container">
+ <nav class="navbar navbar-default">
+  <div class="container-fluid">
+   <!-- Brand and toggle get grouped for better mobile display -->
+   <div class="navbar-header">
+    <button id="nav-toggle" type="button" class="navbar-toggle menu collapsed" data-toggle="collapse" data-target="#cj-navbar" aria-expanded="false">
+     <span class="sr-only">
+      Toggle navigation
+     </span>
+     <!-- The text of the button below is dynamically set with Javascript. To change this text, see the instructions in the
+            marked script tag at the bottom of this page. -->
+     <i class="fa fa-bars icon">
+     </i>
+     MENU
+    </button>
+    <a class="navbar-brand" href="/">
+     <div data-barley="brand_logo" data-barley-editor="logo">
+      <span class="logo-grp-black">
+       Monthly Readers Club
+      </span>
+     </div>
+    </a>
+   </div>
+   <!-- Collect the nav links, forms, and other content for toggling -->
+   <div class="collapse navbar-collapse" id="cj-navbar">
+    <ul id="cj-nav" class="nav navbar-nav navbar-right">
+     <!-- Add new navigation items here -->
+     <li>
+      <a class="lt-nav-link-grp-black" href="/subscribe" data-barley="slidebar_subscribe_link" data-barley-editor="link">
+       SUBSCRIBE
+      </a>
+     </li>
+     <li>
+      <a class="lt-nav-link-grp-black" href="/subscribe/gift" data-barley="slidebar_gift_link" data-barley-editor="link">
+       GIVE A GIFT
+      </a>
+     </li>
+     {% if store.ecom_products | length > 0 %}
+     <li>
+      <a class="lt-nav-link-grp-black" href="/shop" data-barley="slidebar_shop_link" data-barley-editor="link">
+       SHOP
+      </a>
+     </li>
+     {% endif %}
+     <li>
+      <a class="lt-nav-link-grp-black" href="/howitworks" data-barley="slidebar_hiw_link" data-barley-editor="link">
+       HOW IT WORKS
+      </a>
+     </li>
+     <!-- <li>
+      <a class="lt-nav-link-grp-black" href="/about_us" data-barley="slidebar_about_link" data-barley-editor="link">
+       ABOUT
+      </a>
+     </li>
+     <li>
+      <a class="lt-nav-link-grp-black" href="/faq" data-barley="slidebar_faq_link" data-barley-editor="link">
+       FAQ
+      </a>
+     </li> -->
+     <li>
+      <a class="lt-nav-link-grp-black" href="/checkout">
+       CART ({{ (cart.products | length ) + (cart.gifts | length) }})
+      </a>
+     </li>
+     {% if guest %}
+     <li style="margin-top:7px;">
+      <a type="button" class="login-button btn btn-success btn-small sm-lt-btn-grp" href="/customer/login" data-barley="slidebar_login_btn" data-barley-editor="link">
+       LOGIN
+      </a>
+     </li>
+     {% else %}
+     <li>
+      <a class="lt-nav-link-grp-black" href="/customer/account">
+       {{ customer.name | upper }}
+      </a>
+     </li>
+     <li>
+      <a class="lt-nav-link-grp-black" href="/customer/logout">
+       SIGN OUT
+      </a>
+     </li>
+     {% endif %}
+    </ul>
+   </div>
+   <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
+ </nav>
+</div>
+{% endblock %}
+
+
+
+{% block page_content %}
+<div class="form-feedback">
+	{%- if result -%}
+	<p>
+	{{ result }}
+	</p>
+	{%- endif -%}
+</div>
+
+<div class="headline-container">
+	<div class="headline">
+		<div class="container">
+			<h2>Update your information</h2>
+		</div>
+	</div>
+</div>
+
+<div class="container error-container my-account">
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2">
+						<div class="alert alert-danger">
+							{{ message | safe }}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+</div>
+
+<div class="container form-container my-account">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2">
+			{{ customer_helper.edit_basic_account_info(btn_class="btn-primary") }}
+			{{ customer_helper.edit_payment_info(btn_class="btn-primary") }}
+			{{ customer_helper.edit_address_info(btn_class="btn-primary") }}
+		</div>
+	</div>
+</div>
+{% endblock %}

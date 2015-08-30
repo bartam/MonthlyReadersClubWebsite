@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+
+{% block header_navbar %}
+<div id="nav-container" class="container">
+ <nav class="navbar navbar-default">
+  <div class="container-fluid">
+   <!-- Brand and toggle get grouped for better mobile display -->
+   <div class="navbar-header">
+    <button id="nav-toggle" type="button" class="navbar-toggle menu collapsed" data-toggle="collapse" data-target="#cj-navbar" aria-expanded="false">
+     <span class="sr-only">
+      Toggle navigation
+     </span>
+     <!-- The text of the button below is dynamically set with Javascript. To change this text, see the instructions in the
+            marked script tag at the bottom of this page. -->
+     <i class="fa fa-bars icon">
+     </i>
+     MENU
+    </button>
+    <a class="navbar-brand" href="/">
+     <div data-barley="brand_logo" data-barley-editor="logo">
+      <span class="logo-grp-black">
+       Monthly Readers Club
+      </span>
+     </div>
+    </a>
+   </div>
+   <!-- Collect the nav links, forms, and other content for toggling -->
+   <div class="collapse navbar-collapse" id="cj-navbar">
+    <ul id="cj-nav" class="nav navbar-nav navbar-right">
+     <!-- Add new navigation items here -->
+     <li>
+      <a class="lt-nav-link-grp-black" href="/subscribe" data-barley="slidebar_subscribe_link" data-barley-editor="link">
+       SUBSCRIBE
+      </a>
+     </li>
+     <li>
+      <a class="lt-nav-link-grp-black" href="/subscribe/gift" data-barley="slidebar_gift_link" data-barley-editor="link">
+       GIVE A GIFT
+      </a>
+     </li>
+     {% if store.ecom_products | length > 0 %}
+     <li>
+      <a class="lt-nav-link-grp-black" href="/shop" data-barley="slidebar_shop_link" data-barley-editor="link">
+       SHOP
+      </a>
+     </li>
+     {% endif %}
+     <li>
+      <a class="lt-nav-link-grp-black" href="/howitworks" data-barley="slidebar_hiw_link" data-barley-editor="link">
+       HOW IT WORKS
+      </a>
+     </li>
+     <!-- <li>
+      <a class="lt-nav-link-grp-black" href="/about_us" data-barley="slidebar_about_link" data-barley-editor="link">
+       ABOUT
+      </a>
+     </li>
+     <li>
+      <a class="lt-nav-link-grp-black" href="/faq" data-barley="slidebar_faq_link" data-barley-editor="link">
+       FAQ
+      </a>
+     </li> -->
+     <li>
+      <a class="lt-nav-link-grp-black" href="/checkout">
+       CART ({{ (cart.products | length ) + (cart.gifts | length) }})
+      </a>
+     </li>
+     {% if guest %}
+     <li style="margin-top:7px;">
+      <a type="button" class="login-button btn btn-success btn-small sm-lt-btn-grp" href="/customer/login" data-barley="slidebar_login_btn" data-barley-editor="link">
+       LOGIN
+      </a>
+     </li>
+     {% else %}
+     <li>
+      <a class="lt-nav-link-grp-black" href="/customer/account">
+       {{ customer.name | upper }}
+      </a>
+     </li>
+     <li>
+      <a class="lt-nav-link-grp-black" href="/customer/logout">
+       SIGN OUT
+      </a>
+     </li>
+     {% endif %}
+    </ul>
+   </div>
+   <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
+ </nav>
+</div>
+{% endblock %}
+
+
+
+{% block header_tag %}
+<header class="sheader login-area" data-barley="login_bg_img" data-barley-editor="bgimage" style="background-image: url('{{'images/bg-login-2.jpg' | asset_url }}');">
+{% endblock %}
+
+{% block header_content %}
+  {{ super() }}
+
+  <div class="row content">
+    <section class="col-md-5 col-sm-8">
+      {%- if result -%}
+        <div class="login-feedback">
+            <div>
+            {{ result }}
+            </div>
+        </div>
+      {%- endif -%}
+      <h1 class="heading lrg-heading-grp" data-barley="login_heading" data-barley-editor="simple" >Login to your account</h1>
+      <p class="drk-desc-grp" data-barley="login_sub_heading" data-barley-editor="simple">Want to make changes to your information, or update your password? Login and have a blast!</p>
+      <form role="form" class="cform" action="/customer/login" method="post" accept-charset="utf-8">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="form-group frm-input-grp">
+              <label for="email" class="sr-only" data-barley="login_label_email" data-barley-editor="simple">Email</label>
+              <input type="email" name="email" class="form-control frm-input-grp input-lg" id="email" placeholder="Email address">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-9">
+            <div class="form-group frm-input-grp">
+              <label for="password" class="sr-only" data-barley="login_label_password" data-barley-editor="simple">Password</label>
+              <input type="password" class="form-control frm-input-grp input-lg" id="inputPassword" name="password" placeholder="Password">
+              <span class="customer-form-link-cta drk-desc-grp"><a href="/customer/forgot_password">Forgot Password?</a></span>
+            </div>
+          </div>
+        </div>
+        <p class="lead drk-desc-grp">Don’t have an account? <a class="drk-desc-grp" href="/subscribe">Subscribe</a> to sign up!</p>
+        <div class="row">
+          <div class="col-md-5">
+            <button type="submit" class="btn btn-primary fullsize drk-btn-grp">LOGIN</button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+
+{% endblock %}
